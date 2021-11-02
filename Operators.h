@@ -1,61 +1,57 @@
-//
-// Created by Дмитрий on 20.10.2021.
-//
-
-#ifndef OOP_WORKFLOW_EXECUTOR_OPERATIONS_H
-#define OOP_WORKFLOW_EXECUTOR_OPERATIONS_H
-
 #include <string>
 #include <vector>
 #include "Worker.h"
+#ifndef LAB_2_OPERATORS_H
+#define LAB_2_OPERATORS_H
 
-
-class readfile:Worker{
+class Readfile: public Worker{
 private:
     std::string in_file_name;
 public:
-    readfile(std::string file_name);
 
-    void run(std::vector<std::string> *in,std::vector<std::string> *out) override;
+
+    explicit Readfile(std::string file_name):in_file_name(file_name){};
+
+    virtual void run(std::vector<std::string> *in,std::vector<std::string> *out) override {
+            std::cout<<in_file_name<<std::endl;
+    }
+
 };
-class writefile:Worker{
+class Writefile:Worker{
 private:
     std::string out_file_name;
 public:
-    void run(std::vector<std::string> *in,std::vector<std::string> *out) override;
+    virtual void run(std::vector<std::string> *in,std::vector<std::string> *out){} //override
 };
-class grep:Worker{
+class Grep:Worker{
 private:
     std::string word;
     std::string in_file_name;
 public:
-    void run(std::vector<std::string> *in,std::vector<std::string> *out) override;
+    virtual void run(std::vector<std::string> *in,std::vector<std::string> *out) {  }
 };
-class sort:Worker{
+class Sort:Worker{
 private:
     std::string in_file_name;
     std::string out_file_name;
 public:
-    void run(std::vector<std::string> *in,std::vector<std::string> *out) override;
+    virtual void run(std::vector<std::string> *in,std::vector<std::string> *out) {  }
 };
-class replace:Worker{
+class Replace:Worker{
 private:
     std::string word_1;
     std::string word_2;
     std::string in_file_name;
     std::string out_file_name;
 public:
-    void run(std::vector<std::string> *in,std::vector<std::string> *out) override;
+    virtual void run(std::vector<std::string> *in,std::vector<std::string> *out) {}
 };
-class dump:Worker{
+class Dump:Worker{
 private:
     std::string in_file_name;
 public:
-    void run(std::vector<std::string> *in,std::vector<std::string> *out) override;
+    virtual void run(std::vector<std::string> *in,std::vector<std::string> *out){}
 };
-#endif //OOP_WORKFLOW_EXECUTOR_OPERATIONS_H
-
-
-
+#endif //LAB_2_OPERATORS_H
 
 
