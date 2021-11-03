@@ -11,10 +11,31 @@
 #ifndef LAB_2_PARSEWORKERS_H
 #define LAB_2_PARSEWORKERS_H
 void create_worker(const std::string& name,std::map<int,std::vector<std::string>> blocks,int number, std::vector<std::shared_ptr<Worker>> &workers){
-        if(name=="readfile"){
-            auto Operator = std::make_shared<Readfile>(blocks[number][3]);
-            workers.push_back(Operator);
-        }
+    if(name=="readfile"){
+        auto Operator = std::make_shared<Readfile>(blocks[number][3]);
+        workers.push_back(Operator);
+    }
+    if(name=="writefile"){
+        auto Operator = std::make_shared<Writefile>(blocks[number][3]);
+        workers.push_back(Operator);
+    }
+    if(name=="sort"){
+        auto Operator = std::make_shared<Sort>();
+        workers.push_back(Operator);
+    }
+    if(name=="grep"){
+        auto Operator = std::make_shared<Grep>(blocks[number][3],blocks[number][4]);
+        workers.push_back(Operator);
+    }
+    if(name=="replace"){
+        auto Operator = std::make_shared<Replace>(blocks[number][3],blocks[number][4]);
+        workers.push_back(Operator);
+    }
+    if(name=="dump"){
+        auto Operator = std::make_shared<Dump>(blocks[number][3]);
+        workers.push_back(Operator);
+    }
+
 }
 std::vector<std::shared_ptr<Worker>> ParseWorkers (const std::string& filename,std::map<int,std::vector<std::string>> blocks){
     std::vector<std::shared_ptr<Worker>> workers;
@@ -51,7 +72,7 @@ std::vector<std::shared_ptr<Worker>> ParseWorkers (const std::string& filename,s
                 std::istream_iterator<std::string> begin(ss), end;
                 //putting all the tokens in the vector
                 std::vector<std::string> arrayTokens(begin, end);
-                for(int i=0;i<=arrayTokens.size();i+=2){
+                for(int i=0;i<arrayTokens.size();i+=2){
                     int number=std::stoi(arrayTokens[i]);//take number
                     std::string operator_name = blocks[number][2]; // Operator name by key
                     create_worker( operator_name,blocks, number,workers); // Create Object_Operator with data
