@@ -7,11 +7,12 @@
 int main() {
 
     std::map<int,std::vector<std::string>> blocks;
-    std::vector<std::shared_ptr<Worker>> workers = ParseWorkers(R"(D:\CLion 2021.2.1\MyProjects\lab_2\input.txt)",blocks);
+    std::vector<std::shared_ptr<Worker>> workers = ParseWorkers(R"(D:\CLion_2021.2.1\MyProjects\lab_2\input.txt)",blocks);
+    std::vector<std::vector<std::string>> vin;
+    std::vector<std::vector<std::string>> vout;
+    for (auto& c : workers){
 
-   for (auto& c : workers){
-
-       c->run(nullptr, nullptr);
-   }
+        c->run(vin, vout);
+    }
     return 0;
 }
