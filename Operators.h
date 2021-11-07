@@ -29,6 +29,9 @@ public:
 
             }
         }
+        else{
+            throw std::string("File is not open! \n")+in_file_name;
+        }
         in_file.close();
     }
 };
@@ -38,10 +41,11 @@ private:
 public:
     explicit Writefile(std::string file_name):out_file_name(file_name){};
     virtual void run(std::vector<std::vector<std::string>> &in,std::vector<std::vector<std::string>> &out) override {
+
         std::ofstream out_file(out_file_name);
-        for(int i=0;i<in.size();i++){
-            for(int j=0;j<in[i].size();j++){
-                out_file << in[i][j] << " ";
+        for(auto & string : in){
+            for(auto & word : string){
+                out_file << word << " ";
             }
             out_file << "\n";
         }
@@ -51,20 +55,19 @@ public:
 class Grep: public Worker{
 private:
     std::string word;
-    std::string in_file_name;
 public:
-    explicit Grep(std::string file_name,std::string word) : in_file_name(file_name) ,word(word) {};
+    explicit Grep(std::string word) : word(word) {};
     virtual void run(std::vector<std::vector<std::string>> &in,std::vector<std::vector<std::string>> &out) override {
 
-        for(int i=0;i<in.size();i++) {
+        for(auto & string : in) {
             bool word_not_exist=true;
-            for (int j = 0; j < in[i].size(); j++) {
-                if(in[i][j]==word){
+            for (auto & this_word : string) {
+                if(this_word==word){
                     word_not_exist=false;
                 }
             }
             if(word_not_exist){
-                out.push_back(in[i]);
+                out.push_back(string);
             }
 
         }
@@ -73,11 +76,11 @@ public:
 }; //save string only with word
 class Sort: public Worker{
 public:
-    explicit Sort(){};
+    explicit Sort()= default;;
     virtual void run(std::vector<std::vector<std::string>> &in,std::vector<std::vector<std::string>> &out) override {
 
-        for(int i=0;i<in.size();i++) {
-            std::sort(in[i].begin(), in[i].end());
+        for(auto & string : in) {
+            std::sort(string.begin(), string.end());
         }
     }
 }; //sort tokens
@@ -88,14 +91,14 @@ private:
 public:
     explicit Replace(std::string word1,std::string word2) : word_1(word1),word_2(word2) {};
     virtual void run(std::vector<std::vector<std::string>> &in,std::vector<std::vector<std::string>> &out) override {
-        for(int i=0;i<in.size();i++) {
+        for(auto & string : in) {
 
-            for (int j = 0; j < in[i].size(); j++) {
-                if(in[i][j]==word_1){
-                    in[i][j]=word_2;
+            for (auto & word : string) {
+                if(word==word_1){
+                    word=word_2;
                 }
             }
-            out.push_back(in[i]);
+            out.push_back(string);
 
         }
         in=out;
@@ -108,9 +111,9 @@ public:
     explicit Dump(std::string file_name):out_file_name(file_name){};
     virtual void run(std::vector<std::vector<std::string>> &in,std::vector<std::vector<std::string>> &out) override {
         std::ofstream out_file(out_file_name);
-        for(int i=0;i<in.size();i++){
-            for(int j=0;j<in[i].size();j++){
-                out_file << in[i][j] << " ";
+        for(auto & string : in){
+            for(auto & word : string){
+                out_file << word << " ";
             }
             out_file << "\n";
         }
